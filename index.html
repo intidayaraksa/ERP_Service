@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Pelanggan - Service Teknik Online</title>
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: #0f172a; color: #f8fafc; padding-bottom: 30px; }
+        header { background: linear-gradient(135deg, #0284c7, #0369a1); padding: 20px 15px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        header h1 { font-size: 1.4rem; color: #fff; }
+        header p { font-size: 0.8rem; color: #e0f2fe; margin-top: 4px; }
+        main { padding: 15px; max-width: 500px; margin: 0 auto; }
+        .auth-box, .panel-box { background: #1e293b; padding: 20px; border-radius: 16px; border: 1px solid #334155; margin-top: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+        .auth-toggle { display: flex; justify-content: space-around; margin-bottom: 20px; border-bottom: 2px solid #334155; padding-bottom: 10px; }
+        .toggle-btn { background: none; border: none; color: #64748b; font-weight: 700; font-size: 1rem; cursor: pointer; }
+        .toggle-btn.active { color: #38bdf8; border-bottom: 2px solid #38bdf8; margin-bottom: -12px; padding-bottom: 10px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 0.8rem; color: #94a3b8; margin-bottom: 6px; font-weight: 600; }
+        .form-control { width: 100%; padding: 12px; background: #0f172a; border: 1px solid #334155; border-radius: 10px; color: white; font-size: 0.9rem; }
+        .btn-submit { width: 100%; padding: 12px; background: linear-gradient(135deg, #0ea5e9, #0284c7); color: white; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; margin-top: 10px; }
+        .card-history { background: #0f172a; padding: 15px; border-radius: 12px; border: 1px solid #334155; margin-bottom: 12px; }
+        .history-header { display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: bold; margin-bottom: 8px; }
+        .badge { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 3px 8px; border-radius: 6px; }
+        .badge.success { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
+        .nav-client { display: flex; justify-content: space-between; background: #0f172a; border-radius: 10px; padding: 5px; margin-bottom: 15px; }
+        .nav-client-btn { flex: 1; text-align: center; padding: 10px; background: none; border: none; color: #64748b; font-size: 0.85rem; font-weight: bold; cursor: pointer; }
+        .nav-client-btn.active { background: #1e293b; color: #38bdf8; border-radius: 8px; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🔧 PORTAL PELANGGAN</h1>
+        <p>Order Servis Cepat & Cek Riwayat Perbaikan</p>
+    </header>
+
+    <main>
+        <!-- HALAMAN MASUK / DAFTAR -->
+        <div id="authSection" class="auth-box">
+            <div class="auth-toggle">
+                <button class="toggle-btn active" id="btnTabLogin" onclick="switchAuth('login')">LOGIN</button>
+                <button class="toggle-btn" id="btnTabRegister" onclick="switchAuth('register')">DAFTAR BARU</button>
+            </div>
+            
+            <div id="loginForm">
+                <div class="form-group">
+                    <label>NOMOR WHATSAPP (Gunakan Angka 62...)</label>
+                    <input type="number" id="loginPhone" class="form-control" placeholder="Contoh: 62812345678">
+                </div>
+                <button class="btn-submit" onclick="prosesLoginPelanggan()">MASUK PORTAL</button>
+            </div>
+
+            <div id="registerForm" class="hidden">
+                <div class="form-group">
+                    <label>NAMA LENGKAP</label>
+                    <input type="text" id="regName" class="form-control" placeholder="Nama Anda">
+                </div>
+                <div class="form-group">
+                    <label>NOMOR WHATSAPP (Gunakan Angka 62...)</label>
+                    <input type="number" id="regPhone" class="form-control" placeholder="Contoh: 62812345678">
+                </div>
+                <div class="form-group">
+                    <label>ALAMAT RUMAH LENGKAP</label>
+                    <input type="text" id="regAddress" class="form-control" placeholder="Alamat pengerjaan teknisi">
+                </div>
+                <button class="btn-submit" onclick="prosesRegisterPelanggan()">DAFTAR SEKARANG</button>
+            </div>
+        </div>
+
+        <!-- DASHBOARD PELANGGAN JIKA SUDAH LOGIN -->
+        <div id="dashboardSection" class="panel-box hidden">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <div>
+                    <h3 id="welcomeText" style="color:#fff;">Halo, Pelanggan</h3>
+                    <p id="clientSubText" style="font-size:0.75rem; color:#94a3b8;"></p>
+                </div>
+                <button onclick="logoutPelanggan()" style="background:none; border:none; color:#ef4444; font-size:0.8rem; font-weight:bold; cursor:pointer;">Keluar</button>
+            </div>
+
+            <div class="nav-client">
+                <button class="nav-client-btn active" id="btnTabHistory" onclick="switchClientMenu('history')">Riwayat Servis</button>
+                <button class="nav-client-btn" id="btnTabNewOrder" onclick="switchClientMenu('neworder')">Pesan Servis</button>
+            </div>
+
+            <!-- SUB-MENU 1: CEK HISTORY -->
+            <div id="clientHistoryView">
+                <div style="font-size:0.8rem; color:#94a3b8; font-weight:700; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">Daftar Riwayat Perbaikan</div>
+                <div id="historyContainer">
+                    <!-- Data riwayat masuk di sini -->
+                </div>
+            </div>
+
+            <!-- SUB-MENU 2: FORM ORDER BARU -->
+            <div id="clientOrderView" class="hidden">
+                <div class="form-group">
+                    <label>PILIH UNIT YANG AKAN DIPERBAIKI</label>
+                    <select id="clientAppliance" class="form-control">
+                        <option>❄️ AC Pendingin</option>
+                        <option> Mesin Cuci</option>
+                        <option>🔥 Pemanas / Water Heater</option>
+                        <option>📻 Kulkas / Freezer</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>KELUHAN / DETAIL KERUSAKAN</label>
+                    <input type="text" id="clientIssue" class="form-control" placeholder="Contoh: AC Bocor air / tidak dingin">
+                </div>
+                <button class="btn-submit" onclick="submitOrderPelanggan()">KIRIM PERMINTAAN SERVIS</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Menggunakan sinkronisasi basis data online tiruan lewat LocalStorage lintas tab
+        let dbPelanggan = JSON.parse(localStorage.getItem('db_pelanggan')) || [];
+        let dbOrder = JSON.parse(localStorage.getItem('db_order')) || [];
+        let sessionPelanggan = JSON.parse(localStorage.getItem('session_pelanggan')) || null;
+
+        window.onload = function() {
+            if(sessionPelanggan) {
+                tampilkanDashboardPelanggan();
+            }
+        };
+
+        function switchAuth(type) {
+            document.getElementById('btnTabLogin').classList.toggle('active', type === 'login');
+            document.getElementById('btnTabRegister').classList.toggle('active', type === 'register');
+            document.getElementById('loginForm').classList.toggle('hidden', type !== 'login');
+            document.getElementById('registerForm').classList.toggle('hidden', type !== 'register');
+        }
+
+        function switchClientMenu(menu) {
+            document.getElementById('btnTabHistory').classList.toggle('active', menu === 'history');
+            document.getElementById('btnTabNewOrder').classList.toggle('active', menu === 'neworder');
+            document.getElementById('clientHistoryView').classList.toggle('hidden', menu !== 'history');
+            document.getElementById('clientOrderView').classList.toggle('hidden', menu !== 'neworder');
+        }
+
+        function prosesRegisterPelanggan() {
+            const nama = document.getElementById('regName').value;
+            const hp = document.getElementById('regPhone').value;
+            const alamat = document.getElementById('regAddress').value;
+
+            if(!nama || !hp || !alamat) return alert("Harap isi semua kolom pendaftaran!");
+            
+            // Cek apakah nomor sudah ada
+            if(dbPelanggan.some(p => p.hp === hp)) return alert("Nomor HP ini sudah terdaftar!");
+
+            const pelangganBaru = { nama, hp, alamat };
+            dbPelanggan.push(pelangganBaru);
+            localStorage.setItem('db_pelanggan', JSON.stringify(dbPelanggan));
+            
+            alert("Pendaftaran Berhasil! Silakan klik tab LOGIN menggunakan nomor HP Anda.");
+            switchAuth('login');
+            document.getElementById('loginPhone').value = hp;
+        }
+
+        function prosesLoginPelanggan() {
+            const hp = document.getElementById('loginPhone').value;
+            const user = dbPelanggan.find(p => p.hp === hp);
+
+            if(!user) return alert("Nomor HP tidak terdaftar! Silakan pilih tab DAFTAR BARU terlebih dahulu.");
+
+            sessionPelanggan = user;
+            localStorage.setItem('session_pelanggan', JSON.stringify(sessionPelanggan));
+            tampilkanDashboardPelanggan();
+        }
+
+        function tampilkanDashboardPelanggan() {
+            document.getElementById('authSection').classList.add('hidden');
