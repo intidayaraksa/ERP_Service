@@ -3,149 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intidayaraksa ERP Service - All-in-One App</title>
-    <!-- Simbol Navigasi Menarik -->
+    <title>Intidayaraksa ERP Service - Fixed App</title>
     <link rel="stylesheet" href="https://cloudflare.com">
-    
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
         body { background-color: #0f172a; color: #f8fafc; padding-bottom: 90px; }
-        
-        /* ATASAN UTAMA */
-        header { 
-            background: linear-gradient(135deg, #1e40af, #6b21a8); padding: 15px; 
-            box-shadow: 0 4px 20px rgba(0,0,0,0.4); position: sticky; top: 0; z-index: 100;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        header h1 { font-size: 1.2rem; font-weight: 800; color: #ffffff; letter-spacing: 1px; }
+        header { background: linear-gradient(135deg, #1e40af, #6b21a8); padding: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+        header h1 { font-size: 1.2rem; font-weight: 800; color: #ffffff; }
         header p { font-size: 0.7rem; color: #cbd5e1; }
         .btn-logout { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: bold; cursor: pointer; }
-
         main { padding: 15px; max-width: 600px; margin: 0 auto; }
         .view-section { display: none; }
         .view-section.active { display: block; }
-        .section-title { font-size: 0.8rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 15px; margin-top: 10px; }
-
-        /* KOTAK PENGISIAN */
-        .card-box { background: #1e293b; padding: 20px; border-radius: 20px; border: 1px solid #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.5); margin-bottom: 20px; }
+        .section-title { font-size: 0.8rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 15px; margin-top: 10px; }
+        .card-box { background: #1e293b; padding: 20px; border-radius: 20px; border: 1px solid #334155; margin-bottom: 20px; }
         .tab-toggle { display: flex; justify-content: space-around; margin-bottom: 20px; border-bottom: 2px solid #334155; padding-bottom: 10px; }
-        .tab-btn { background: none; border: none; color: #64748b; font-weight: 700; font-size: 0.95rem; cursor: pointer; padding: 5px; }
-        .tab-btn.active { color: #38bdf8; border-bottom: 2px solid #38bdf8; margin-bottom: -12px; }
-        
+        .tab-btn { background: none; border: none; color: #64748b; font-weight: 700; font-size: 0.95rem; cursor: pointer; }
+        .tab-btn.active { color: #38bdf8; border-bottom: 2px solid #38bdf8; margin-bottom: -12px; padding-bottom: 10px; }
         .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-size: 0.75rem; color: #94a3b8; margin-bottom: 6px; font-weight: 600; text-transform: uppercase; }
-        .form-control { width: 100%; padding: 12px; background: #0f172a; border: 1px solid #334155; border-radius: 10px; color: white; font-size: 0.9rem; }
-        .form-control:focus { border-color: #38bdf8; outline: none; }
-        .btn-block { width: 100%; padding: 12px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white; border: none; border-radius: 10px; font-weight: 700; font-size: 0.95rem; cursor: pointer; margin-top: 5px; }
-
-        /* KOTAK INFORMASI */
+        .form-group label { display: block; font-size: 0.75rem; color: #94a3b8; margin-bottom: 6px; font-weight: 600; }
+        .form-control { width: 100%; padding: 12px; background: #0f172a; border: 1px solid #334155; border-radius: 10px; color: white; }
+        .btn-block { width: 100%; padding: 12px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; }
         .grid-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 15px; }
         .card-stat { background: #1e293b; padding: 15px; border-radius: 16px; border: 1px solid #334155; border-left: 4px solid #3b82f6; }
         .card-stat.orange { border-left-color: #f59e0b; }
-        .card-stat .title { font-size: 0.75rem; color: #94a3b8; }
-        .card-stat .value { font-size: 1.5rem; font-weight: 800; margin-top: 5px; display: block; }
-
-        /* TAMPILAN NOTA TUGAS */
-        .card-item { background: linear-gradient(145deg, #1e293b, #0f172a); padding: 15px; border-radius: 16px; border: 1px solid #334155; margin-bottom: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .card-stat .value { font-size: 1.5rem; font-weight: 800; display: block; margin-top: 5px; }
+        .card-item { background: linear-gradient(145deg, #1e293b, #0f172a); padding: 15px; border-radius: 16px; border: 1px solid #334155; margin-bottom: 12px; }
         .card-header-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .badge { font-size: 0.65rem; font-weight: 700; padding: 4px 8px; border-radius: 6px; background: rgba(58,130,246,0.15); color: #60a5fa; border: 1px solid rgba(58,130,246,0.3); }
-        .badge.selesai { background: rgba(34,197,94,0.15); color: #4ade80; border-color: rgba(34,197,94,0.3); }
-        .item-name { font-size: 1.05rem; font-weight: 700; color: #ffffff; }
+        .badge { font-size: 0.65rem; font-weight: 700; padding: 4px 8px; border-radius: 6px; background: rgba(58,130,246,0.15); color: #60a5fa; }
+        .badge.selesai { background: rgba(34,197,94,0.15); color: #4ade80; }
+        .item-name { font-size: 1.05rem; font-weight: 700; }
         .item-info { font-size: 0.8rem; color: #94a3b8; margin-top: 5px; display: flex; align-items: center; gap: 6px; }
-        .card-actions { border-top: 1px solid #334155; margin-top: 12px; padding-top: 10px; display: flex; justify-content: space-between; align-items: center; }
-        
-        .btn-wa { background: #22c55e; color: white; text-decoration: none; font-size: 0.75rem; font-weight: 700; padding: 6px 12px; border-radius: 8px; display: inline-flex; align-items: center; gap: 4px; }
+        .card-actions { border-top: 1px solid #334155; margin-top: 12px; padding-top: 10px; display: flex; justify-content: space-between; }
+        .btn-wa { background: #22c55e; color: white; text-decoration: none; font-size: 0.75rem; font-weight: 700; padding: 6px 12px; border-radius: 8px; }
         .btn-action { background: #334155; color: white; border: none; font-size: 0.75rem; padding: 6px 10px; border-radius: 8px; cursor: pointer; }
-        .btn-danger { background: rgba(239,68,68,0.2); color: #f87171; border: 1px solid #ef4444; }
-
-        /* NAVIGASI BAWAH */
-        .bottom-nav { position: fixed; bottom: 15px; left: 15px; right: 15px; background: rgba(30, 41, 59, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 12px 5px; display: none; justify-content: space-around; box-shadow: 0 10px 25px rgba(0,0,0,0.5); border: 1px solid #475569; z-index: 1000; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; text-decoration: none; color: #64748b; cursor: pointer; }
+        .bottom-nav { position: fixed; bottom: 15px; left: 15px; right: 15px; background: rgba(30, 41, 59, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 12px 5px; display: none; justify-content: space-around; box-shadow: 0 10px 25px rgba(0,0,0,0.5); border: 1px solid #475569; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: #64748b; cursor: pointer; }
         .nav-item.active { color: #38bdf8; }
-        .nav-item i { font-size: 1.1rem; }
         .nav-item span { font-size: 0.65rem; font-weight: 700; }
     </style>
 </head>
 <body>
 
-    <!-- NAVIGASI ATAS KETIKA BEKERJA -->
     <header id="mainHeader" style="display: none;">
         <div>
             <h1 id="headerTitle">🔧 INTIDAYARAKSA</h1>
-            <p id="headerSubtitle">Sistem Berjalan Aktif</p>
+            <p id="headerSubtitle">Sistem Aktif</p>
         </div>
         <button class="btn-logout" onclick="keluarSistem()">KELUAR</button>
     </header>
 
     <main>
-        <!-- ==================== PINTU MASUK SISTEM (LOGIN) ==================== -->
+        <!-- PORTAL LOGIN -->
         <div id="view-gateway" class="view-section active">
             <div class="card-box">
                 <div class="tab-toggle">
                     <button class="tab-btn active" id="tabPelanggan" onclick="gantiPintuAkses('pelanggan')">PORTAL PELANGGAN</button>
-                    <button class="tab-btn" id="tabAdmin" onclick="gantiPintuAkses('admin')">INTERNAL STAF / ADMIN</button>
+                    <button class="tab-btn" id="tabAdmin" onclick="gantiPintuAkses('admin')">INTERNAL ADMIN</button>
                 </div>
 
-                <!-- Input Pelanggan -->
                 <div id="form-login-pelanggan">
                     <div class="form-group">
-                        <label>KETIK NOMOR WHATSAPP ANDA</label>
-                        <input type="number" id="loginPhone" class="form-control" placeholder="Contoh: 62812345678">
+                        <label>NOMOR WHATSAPP ANDA</label>
+                        <input type="number" id="loginPhone" class="form-control" placeholder="Contoh: 6281234">
                     </div>
                     <button class="btn-block" onclick="loginPelanggan()">MASUK PORTAL</button>
-                    <button class="btn-block" style="background: none; color: #38bdf8; font-size: 0.8rem; margin-top: 10px;" onclick="bukaFormDaftar()">Belum punya akun? DAFTAR BARU DI SINI</button>
+                    <button class="btn-block" style="background:none; color:#38bdf8; font-size:0.8rem; margin-top:10px;" onclick="bukaFormDaftar()">DAFTAR AKUN BARU DI SINI</button>
                 </div>
 
-                <!-- Input Admin -->
                 <div id="form-login-admin" style="display: none;">
                     <div class="form-group">
-                        <label>MASUKKAN PIN PETUGAS</label>
-                        <input type="password" id="loginPin" class="form-control" placeholder="PIN Default: 1234">
+                        <label>PIN ADMIN</label>
+                        <input type="password" id="loginPin" class="form-control" placeholder="PIN: 1234">
                     </div>
-                    <button class="btn-block" style="background: linear-gradient(135deg, #a855f7, #6b21a8);" onclick="loginAdmin()">MASUK PANEL UTAMA</button>
+                    <button class="btn-block" style="background:linear-gradient(135deg, #a855f7, #6b21a8);" onclick="loginAdmin()">MASUK ADMIN</button>
                 </div>
             </div>
         </div>
 
-        <!-- ==================== HALAMAN REGISTER KONSUMEN BARU ==================== -->
+        <!-- DAFTAR AKUN -->
         <div id="view-register" class="view-section">
-            <div class="section-title">📝 Pembuatan Akun Baru</div>
+            <div class="section-title">📝 Daftar Akun Baru</div>
             <div class="card-box">
-                <div class="form-group">
-                    <label>NAMA LENGKAP ANDA</label>
-                    <input type="text" id="regName" class="form-control" placeholder="Ketik nama lengkap">
-                </div>
-                <div class="form-group">
-                    <label>NOMOR WHATSAPP (Gunakan 62)</label>
-                    <input type="number" id="regPhone" class="form-control" placeholder="Contoh: 62812345678">
-                </div>
-                <div class="form-group">
-                    <label>ALAMAT RUMAH LENGKAP</label>
-                    <input type="text" id="regAddress" class="form-control" placeholder="Alamat penjemputan/perbaikan">
-                </div>
-                <button class="btn-block" onclick="prosesDaftarPelanggan()">DAFTAR SEKARANG</button>
-                <button class="btn-block" style="background: #334155; margin-top: 10px;" onclick="kembaliKeLogin()">Kembali</button>
+                <div class="form-group"><label>NAMA</label><input type="text" id="regName" class="form-control"></div>
+                <div class="form-group"><label>NO WHATSAPP</label><input type="number" id="regPhone" class="form-control" placeholder="6281234"></div>
+                <div class="form-group"><label>ALAMAT</label><input type="text" id="regAddress" class="form-control"></div>
+                <button class="btn-block" onclick="prosesDaftarPelanggan()">SIMPAN & DAFTAR</button>
+                <button class="btn-block" style="background:#334155; margin-top:10px;" onclick="kembaliKeLogin()">KEMBALI</button>
             </div>
         </div>
 
-        <!-- ==================== HALAMAN DASBOR UTAMA PELANGGAN ==================== -->
+        <!-- VIEW CLIENT -->
         <div id="view-portal-client" class="view-section">
-            <div class="card-box" style="background: linear-gradient(135deg, #0f172a, #1e293b);">
-                <h3 id="txtClientWelcome" style="color: #fff;">Selamat Datang</h3>
-                <p id="txtClientAddress" style="font-size: 0.8rem; color: #94a3b8; margin-top: 4px;"></p>
+            <div class="card-box">
+                <h3 id="txtClientWelcome">Selamat Datang</h3>
+                <p id="txtClientAddress" style="font-size:0.8rem; color:#94a3b8; margin-top:4px;"></p>
             </div>
-
-            <div class="section-title">Kirim Permintaan Perbaikan Alat</div>
+            <div class="section-title">Kirim Servis</div>
             <div class="card-box">
                 <div class="form-group">
-                    <label>JENIS ELEKTRONIK TEKNIK</label>
+                    <label>UNIT</label>
                     <select id="clientUnit" class="form-control">
-                        <option>❄️ AC Pendingin</option>
-                        <option> Mesin Cuci</option>
-                        <option>🔥 Water Heater / Pemanas</option>
-                        <option>📻 Kulkas / Lemari Es</option>
+                        <option>AC Pendingin</option>
+                        <option>Mesin Cuci</option>
+                        <option>Water Heater</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label>DETAIL KERUSAKAN</label>
-                    <input type="text" id="clientIssue" class="form-control" placeholder="Contoh: Lampu mati / bocor freon">
+                <div class="form-group"><label>KELUHAN</label><input type="text" id="clientIssue" class="form-control"></div>
+                <button class="btn-block" onclick="kirimOrderPelanggan()">KIRIM SEKARANG</button>
+            </div>
+            <div id="list-history-pelanggan"></div>
+        </div>
+
+        <!-- VIEW ADMIN -->
+        <div id="view-admin-dashboard" class="view-section">
+            <div class="grid-stats">
+                <div class="card-stat"><span class="title">Konsumen</span><span id="statTotalUser" class="value">0</span></div>
+                <div class="card-stat orange"><span class="title">Antrean</span><span id="statTotalOrder" class="value">0</span></div>
+            </div>
+            <div id="list-order-admin"></div>
+        </div>
+
+        <div id="view-admin-pelanggan" class="view-section">
+            <div id="list-customer-admin"></div>
+        </div>
+    </main>
+
+    <nav class="bottom-nav" id="adminNavbar">
+        <div class="nav-item active" onclick="pindahTabAdmin('dashboard', this)"><span>Monitoring</span></div>
+        <div class="nav-item" onclick="pindahTabAdmin('pelanggan', this)"><span>Pelanggan</span></div>
+    </nav>
+
+    <script>
+        // FORCED PURGE SYSTEM: Bersihkan eror tersangkut di HP setiap kali dibuka
+        window.sessionStorage.clear();
+
+        let dbPelanggan = JSON.parse(localStorage.getItem('db_pelanggan')) || [];
+        let dbOrder = JSON.parse(localStorage.getItem('db_order')) || [];
+        let sessionUser = null;
+
+        function gantiPintuAkses(target) {
+            document.getElementById('form-login-pelanggan').style.display = target === 'pelanggan' ? 'block' : 'none';
+            document.getElementById('form-login-admin').style.display = target === 'admin' ? 'block' : 'none';
+            document.getElementById('tabPelanggan').classList.toggle('active', target === 'pelanggan');
+            document.getElementById('tabAdmin').classList.toggle('active', target === 'admin');
+        }
+
