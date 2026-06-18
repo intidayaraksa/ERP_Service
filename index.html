@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ERP Service Teknik - Aplikasi Terpadu</title>
-    <!-- FontAwesome untuk Ikon Aplikasi -->
+    <title>Intidayaraksa ERP Service - All-in-One App</title>
+    <!-- FontAwesome untuk ikon gratis -->
     <link rel="stylesheet" href="https://cloudflare.com">
     
     <style>
@@ -18,126 +18,135 @@
             display: flex; justify-content: space-between; align-items: center;
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-        header h1 { font-size: 1.2rem; font-weight: 800; letter-spacing: 1px; color: #ffffff; }
+        header h1 { font-size: 1.2rem; font-weight: 800; tracking-wide: 1px; color: #ffffff; }
         header p { font-size: 0.7rem; color: #cbd5e1; }
-        .btn-logout { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: bold; cursor: pointer; }
+        .badge-role { background: rgba(255,255,255,0.2); padding: 5px 10px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; }
 
         main { padding: 15px; max-width: 600px; margin: 0 auto; }
         .view-section { display: none; }
         .view-section.active { display: block; }
         .section-title { font-size: 0.8rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 15px; margin-top: 10px; }
 
-        /* FORM LOGIN / REGISTER */
-        .auth-container { max-width: 450px; margin: 40px auto; padding: 25px; background: #1e293b; border-radius: 20px; border: 1px solid #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        /* KOTAK LOGIN & DAFTAR */
+        .auth-box { background: #1e293b; padding: 25px; border-radius: 20px; border: 1px solid #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.5); margin-top: 30px; }
         .auth-title { text-align: center; font-size: 1.4rem; font-weight: 800; margin-bottom: 20px; background: linear-gradient(to right, #38bdf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .auth-toggle { display: flex; justify-content: space-around; margin-bottom: 20px; border-bottom: 2px solid #334155; padding-bottom: 10px; }
-        .toggle-btn { background: none; border: none; color: #64748b; font-weight: 700; font-size: 0.9rem; cursor: pointer; }
-        .toggle-btn.active { color: #38bdf8; border-bottom: 2px solid #38bdf8; margin-bottom: -12px; padding-bottom: 10px; }
+        .auth-tabs { display: flex; justify-content: space-around; margin-bottom: 20px; border-bottom: 2px solid #334155; padding-bottom: 10px; }
+        .tab-btn { background: none; border: none; color: #64748b; font-weight: 700; font-size: 0.9rem; cursor: pointer; }
+        .tab-btn.active { color: #38bdf8; border-bottom: 2px solid #38bdf8; margin-bottom: -12px; padding-bottom: 10px; }
         
         .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-size: 0.8rem; color: #94a3b8; margin-bottom: 6px; font-weight: 600; }
+        .form-group label { display: block; font-size: 0.75rem; color: #94a3b8; margin-bottom: 6px; font-weight: 600; }
         .form-control { width: 100%; padding: 12px; background: #0f172a; border: 1px solid #334155; border-radius: 10px; color: white; font-size: 0.9rem; }
-        .btn-primary { width: 100%; padding: 12px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white; border: none; border-radius: 10px; font-weight: 700; font-size: 0.95rem; cursor: pointer; margin-top: 10px; }
-
-        /* KARTU STATISTIK ADMIN */
-        .grid-status { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
-        .card-status { background: #1e293b; padding: 15px; border-radius: 16px; border: 1px solid #334155; position: relative; overflow: hidden; }
-        .card-status::after { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: #38bdf8; }
-        .card-status.orange::after { background: #f59e0b; }
-        .card-status .title { font-size: 0.75rem; color: #94a3b8; font-weight: 600; }
-        .card-status .value { font-size: 1.5rem; font-weight: 800; margin-top: 5px; display: block; }
-
-        /* TAB KLIEN NAVIGATION */
-        .nav-client { display: flex; justify-content: space-between; background: #0f172a; border-radius: 10px; padding: 5px; margin-bottom: 20px; border: 1px solid #334155; }
-        .nav-client-btn { flex: 1; text-align: center; padding: 10px; background: none; border: none; color: #64748b; font-size: 0.85rem; font-weight: bold; cursor: pointer; }
-        .nav-client-btn.active { background: #1e293b; color: #38bdf8; border-radius: 8px; }
-
-        /* KARTU NOTA / DAFTAR ORDER */
-        .card-item { background: linear-gradient(145deg, #1e293b, #0f172a); padding: 15px; border-radius: 16px; border: 1px solid #334155; margin-bottom: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .badge { font-size: 0.65rem; font-weight: 700; padding: 4px 8px; border-radius: 6px; text-transform: uppercase; background: rgba(58,130,246,0.2); color: #60a5fa; }
-        .status-pill { font-size: 0.7rem; padding: 3px 8px; border-radius: 20px; font-weight: 600; background: #334155; color: #cbd5e1; }
-        .item-title { font-size: 1.05rem; font-weight: 700; color: #ffffff; }
-        .item-desc { font-size: 0.8rem; color: #94a3b8; margin-top: 4px; display: flex; align-items: center; gap: 6px; }
-        .card-actions { border-top: 1px solid #334155; margin-top: 12px; padding-top: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .form-control:focus { border-color: #38bdf8; outline: none; }
         
-        .btn-wa { background: #22c55e; color: white; text-decoration: none; font-size: 0.75rem; font-weight: 700; padding: 6px 12px; border-radius: 8px; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 4px 10px rgba(34,197,94,0.2); }
-        .btn-action { background: #334155; color: white; border: none; font-size: 0.75rem; padding: 6px 10px; border-radius: 8px; cursor: pointer; margin-left: 5px; }
+        /* TOMBOL-TOMBOL */
+        .btn-primary { width: 100%; padding: 12px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; margin-top: 10px; }
+        .btn-wa { background: #22c55e; color: white; text-decoration: none; font-size: 0.75rem; font-weight: 700; padding: 6px 12px; border-radius: 8px; display: inline-flex; align-items: center; gap: 4px; }
+        .btn-action { background: #334155; color: white; border: none; font-size: 0.75rem; padding: 6px 10px; border-radius: 8px; cursor: pointer; }
         .btn-delete { background: rgba(239,68,68,0.2); color: #f87171; border: 1px solid #ef4444; }
 
-        /* NAVIGASI BAWAH (KHUSUS MODE ADMIN) */
+        /* KARTU RINGKASAN & ITEM */
+        .grid-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
+        .card-stat { background: #1e293b; padding: 15px; border-radius: 16px; border: 1px solid #334155; }
+        .card-stat .val { font-size: 1.6rem; font-weight: 800; display: block; margin-top: 5px; }
+        .card-item { background: linear-gradient(145deg, #1e293b, #0f172a); padding: 15px; border-radius: 16px; border: 1px solid #334155; margin-bottom: 12px; }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .badge { font-size: 0.65rem; font-weight: 700; padding: 4px 8px; border-radius: 6px; background: rgba(56, 189, 248, 0.15); color: #38bdf8; text-transform: uppercase; }
+        .item-title { font-size: 1.05rem; font-weight: 700; }
+        .item-desc { font-size: 0.8rem; color: #94a3b8; margin-top: 4px; display: flex; align-items: center; gap: 6px; }
+        .card-foot { border-top: 1px solid #334155; margin-top: 12px; padding-top: 10px; display: flex; justify-content: space-between; align-items: center; }
+
+        /* NAVIGASI BAWAH MELAYANG */
         .bottom-nav { position: fixed; bottom: 15px; left: 15px; right: 15px; background: rgba(30, 41, 59, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 12px 5px; display: none; justify-content: space-around; box-shadow: 0 10px 25px rgba(0,0,0,0.5); border: 1px solid #475569; z-index: 1000; }
         .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; text-decoration: none; color: #64748b; cursor: pointer; }
         .nav-item.active { color: #38bdf8; }
-        .nav-item i { font-size: 1.1rem; }
         .nav-item span { font-size: 0.65rem; font-weight: 700; }
+        
         .hidden { display: none; }
     </style>
 </head>
 <body>
 
-    <!-- ================= HALAMAN AMBANG GATE / LOGIN ================= -->
-    <div id="gatePage" class="auth-container">
-        <h2 class="auth-title">🔧 INTIDAYARAKSA ERP</h2>
-        <div class="auth-toggle">
-            <button class="toggle-btn active" id="tabLogin" onclick="pindahTabAuth('login')">MASUK PORTAL</button>
-            <button class="toggle-btn" id="tabRegister" onclick="pindahTabAuth('register')">PELANGGAN BARU</button>
-        </div>
-        
-        <!-- Form Login Umum (Bisa nomor HP Pelanggan / Ketik rahasia "admin") -->
-        <div id="formLogin">
-            <div class="form-group">
-                <label>MASUKKAN NOMOR WHATSAPP ATAU ID KUNCI</label>
-                <input type="text" id="loginId" class="form-control" placeholder="Pelanggan: 628xx / Admin ketik: admin">
-            </div>
-            <button class="btn-primary" onclick="eksekusiLogin()">MASUK KE SISTEM</button>
-            <p style="font-size: 0.7rem; text-align: center; color: #64748b; margin-top: 15px;">Tips Internal Owner: Ketik kata kunci <b>admin</b> di atas untuk membuka dasbor manajemen teknisi pusat.</p>
+    <!-- ================= HALAMAN GERBANG MASUK UTAMA ================= -->
+    <div id="section-gate" class="main p-4">
+        <div style="text-align: center; margin-top: 40px;">
+            <h1 style="color: #fff; font-size: 1.8rem; font-weight: 900;">🔧 INTIDAYARAKSA</h1>
+            <p style="color: #94a3b8; font-size: 0.85rem; margin-top: 5px;">Sistem Aplikasi ERP Teknik Pendingin & Pemanas</p>
         </div>
 
-        <!-- Form Registrasi Konsumen Mandiri -->
-        <div id="formRegister" class="hidden">
-            <div class="form-group">
-                <label>NAMA LENGKAP ANDA</label>
-                <input type="text" id="regName" class="form-control" placeholder="Contoh: Budi Santoso">
+        <!-- Box Pilihan Login -->
+        <div class="auth-box">
+            <div class="auth-tabs">
+                <button class="tab-btn active" id="tabPelangganBtn" onclick="toggleGateTab('pelanggan')">PORTAL PELANGGAN</button>
+                <button class="tab-btn" id="tabAdminBtn" onclick="toggleGateTab('admin')">INTERNAL STAF / ADMIN</button>
             </div>
-            <div class="form-group">
-                <label>NOMOR WHATSAPP HP (Awali Angka 62)</label>
-                <input type="number" id="regPhone" class="form-control" placeholder="Contoh: 62812345678">
+
+            <!-- Form Log-in Pelanggan -->
+            <div id="gate-pelanggan-form">
+                <div class="form-group">
+                    <label>MASUKKAN NOMOR WHATSAPP ANDA</label>
+                    <input type="number" id="loginCustPhone" class="form-control" placeholder="Contoh: 62812345678">
+                </div>
+                <button class="btn-primary" onclick="loginPelanggan()">MASUK PORTAL</button>
+                
+                <div style="text-align: center; margin-content: 15px; margin-top: 20px;">
+                    <p style="font-size: 0.8rem; color: #94a3b8;">Belum punya akun?</p>
+                    <button class="btn-action" style="margin-top: 8px; background: rgba(56,189,248,0.1); color: #38bdf8; border: 1px solid #38bdf8; width: 100%; padding: 10px;" onclick="bukaFormDaftarPelanggan()">DAFTAR AKUN BARU DI SINI</button>
+                </div>
             </div>
-            <div class="form-group">
-                <label>ALAMAT RUMAH KUNJUNGAN TEKNISI</label>
-                <input type="text" id="regAddress" class="form-control" placeholder="Contoh: Jl. Merdeka No. 12">
+
+            <!-- Form Log-in Admin -->
+            <div id="gate-admin-form" class="hidden">
+                <div class="form-group">
+                    <label>MASUKKAN PIN KEAMANAN ADMIN</label>
+                    <input type="password" id="loginAdminPin" class="form-control" placeholder="PIN Bawaan Pabrik: 1234">
+                </div>
+                <button class="btn-primary" style="background: linear-gradient(135deg, #a855f7, #6b21a8);" onclick="loginAdmin()">MASUK SISTEM ADMIN</button>
             </div>
-            <button class="btn-primary" onclick="eksekusiRegister()">DAFTAR AKUN BARU</button>
         </div>
     </div>
 
-    <!-- ================= SISTEM INTI APLIKASI (TERKUNCI) ================= -->
-    <div id="appContainer" style="display: none;">
+    <!-- ================= HALAMAN DAFTAR PELANGGAN BARU ================= -->
+    <div id="section-register-client" class="view-section">
+        <main>
+            <div class="auth-box">
+                <h2 class="auth-title">📝 REGISTRASI PELANGGAN</h2>
+                <div class="form-group">
+                    <label>NAMA LENGKAP KONSUMEN</label>
+                    <input type="text" id="regName" class="form-control" placeholder="Nama Anda">
+                </div>
+                <div class="form-group">
+                    <label>NOMOR WHATSAPP (Awali Dengan 62)</label>
+                    <input type="number" id="regPhone" class="form-control" placeholder="Contoh: 62812345678">
+                </div>
+                <div class="form-group">
+                    <label>ALAMAT RUMAH LENGKAP</label>
+                    <input type="text" id="regAddress" class="form-control" placeholder="Alamat pengerjaan teknisi">
+                </div>
+                <button class="btn-primary" onclick="simpanPendaftaranPelanggan()">SIMPAN & DAFTAR</button>
+                <button class="btn-action" style="width: 100%; margin-top: 10px; background: transparent; color:#94a3b8;" onclick="kembaliKeGerbang()">Kembali ke Login</button>
+            </div>
+        </main>
+    </div>
+
+
+    <!-- ================= DAERAH DASBOR UTAMA (SETELAH BERHASIL LOGIN) ================= -->
+    <div id="app-workspace" class="hidden">
         <header>
             <div>
-                <h1 id="txtHeaderRole">🔧 ERP SYSTEM</h1>
-                <p id="txtHeaderSub">Memuat Pusat Kendali Operasional...</p>
+                <h1 id="headerAppTitle">🔧 INTIDAYARAKSA ERP</h1>
+                <p id="headerSubTitle">Sistem Sinkronisasi Berjalan</p>
             </div>
-            <button class="btn-logout" onclick="eksekusiLogout()">KELUAR</button>
+            <button class="btn-action btn-delete" onclick="logoutSistem()">KELUAR</button>
         </header>
 
         <main>
-            <!-- ---------------- MODE 1: INTERFACES PELANGGAN ---------------- -->
-            <div id="viewPelanggan" class="view-section">
-                <div class="nav-client">
-                    <button class="nav-client-btn active" id="clientTabHist" onclick="pindahSubKlien('history')">Riwayat Servis Anda</button>
-                    <button class="nav-client-btn" id="clientTabOrder" onclick="pindahSubKlien('order')">Pesan Teknisi Baru</button>
+            <!-- VIEW A: PANEL DASHBOARD PELANGGAN -->
+            <div id="view-client-panel" class="view-section">
+                <div class="card-item" style="background: #1e293b;">
+                    <h3 id="txtClientWelcome" style="color: #fff;">Halo, Selamat Datang</h3>
+                    <p id="txtClientAddress" style="font-size: 0.8rem; color: #94a3b8; margin-top: 4px;"></p>
                 </div>
-
-                <!-- Sub Menu Pelanggan: History -->
-                <div id="subKlienHistory">
-                    <div class="section-title">Status Perbaikan Barang Anda</div>
-                    <div id="listHistoryKlien"></div>
-                </div>
-
-                <!-- Sub Menu Pelanggan: Kirim SPK Order -->
-                <div id="subKlienOrder" class="hidden">
-                    <div class="card-item" style="background:#1e293b;">
-                        <div class="form-group">
-                            <label>PILIH ALAT YANG BERMASALAH</label>
+                
+                <div class="auth-tabs" style="margin-top: 20px;">
+                    <button class="tab-btn active" id="subTabHistoryBtn" onclick="toggleClientSubMenu('history')">RIWAYAT SERVIS SAYA</button>
