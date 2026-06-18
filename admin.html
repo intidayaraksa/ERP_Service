@@ -4,13 +4,158 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Internal - ERP Service Teknik</title>
-    <!-- [Content omitted for brevity, full code in web document] -->
+    <!-- Ikon Keren & Font Modern -->
+    <link rel="stylesheet" href="https://cloudflare.com">
+    
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
+        body { background-color: #0f172a; color: #f8fafc; padding-bottom: 90px; }
+        
+        /* HEADER PANEL ADMIN */
+        header { 
+            background: linear-gradient(135deg, #1e40af, #6b21a8); padding: 15px; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4); position: sticky; top: 0; z-index: 100;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        header h1 { font-size: 1.2rem; font-weight: 800; color: #ffffff; letter-spacing: 1px; }
+        header p { font-size: 0.7rem; color: #cbd5e1; }
+        .btn-logout { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: bold; cursor: pointer; }
+
+        main { padding: 15px; max-width: 600px; margin: 0 auto; }
+        .page-section { display: none; }
+        .page-section.active { display: block; }
+        .section-title { font-size: 0.8rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 15px; margin-top: 10px; }
+
+        /* GATEWAY PASSWORD / PIN */
+        .auth-card { max-width: 400px; margin: 80px auto 0; padding: 25px; background: #1e293b; border-radius: 20px; border: 1px solid #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        .auth-title { text-align: center; font-size: 1.4rem; font-weight: 800; margin-bottom: 20px; background: linear-gradient(to right, #38bdf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 0.75rem; color: #94a3b8; margin-bottom: 6px; font-weight: 600; letter-spacing: 0.5px; }
+        .form-control { width: 100%; padding: 12px; background: #0f172a; border: 1px solid #334155; border-radius: 10px; color: white; font-size: 0.9rem; }
+        .form-control:focus { border-color: #38bdf8; outline: none; }
+        .btn-primary { width: 100%; padding: 12px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white; border: none; border-radius: 10px; font-weight: 700; font-size: 0.95rem; cursor: pointer; }
+
+        /* DASHBOARD STATS */
+        .grid-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 15px; }
+        .card-stat { background: #1e293b; padding: 15px; border-radius: 16px; border: 1px solid #334155; border-left: 4px solid #38bdf8; position: relative; overflow: hidden; }
+        .card-stat.orange { border-left-color: #f59e0b; }
+        .card-stat.green { border-left-color: #10b981; }
+        .card-stat .title { font-size: 0.75rem; color: #94a3b8; font-weight: 600; }
+        .card-stat .value { font-size: 1.6rem; font-weight: 800; margin-top: 5px; display: block; color: white; }
+
+        /* WORK ORDER & DATABASE CARDS */
+        .card-item { background: linear-gradient(145deg, #1e293b, #0f172a); padding: 15px; border-radius: 16px; border: 1px solid #334155; margin-bottom: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .card-header-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .badge { font-size: 0.65rem; font-weight: 700; padding: 4px 8px; border-radius: 6px; background: rgba(58,130,246,0.15); color: #60a5fa; border: 1px solid rgba(58,130,246,0.3); text-transform: uppercase; }
+        .badge.selesai { background: rgba(34,197,94,0.15); color: #4ade80; border-color: rgba(34,197,94,0.3); }
+        .badge.kerja { background: rgba(245,158,11,0.15); color: #fbbf24; border-color: rgba(245,158,11,0.3); }
+        .item-title { font-size: 1.05rem; font-weight: 700; color: #ffffff; }
+        .item-info { font-size: 0.8rem; color: #94a3b8; margin-top: 5px; display: flex; align-items: center; gap: 6px; }
+        .card-actions { border-top: 1px solid #334155; margin-top: 12px; padding-top: 10px; display: flex; justify-content: space-between; align-items: center; }
+        
+        /* TOMBOL AKSI */
+        .btn-wa { background: #22c55e; color: white; text-decoration: none; font-size: 0.75rem; font-weight: 700; padding: 6px 12px; border-radius: 8px; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 4px 10px rgba(34,197,94,0.2); }
+        .btn-action { background: #334155; color: white; border: none; font-size: 0.75rem; padding: 6px 10px; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
+        .btn-danger { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+        /* FLOATING BOTTOM NAVBAR */
+        .bottom-nav { position: fixed; bottom: 15px; left: 15px; right: 15px; background: rgba(30, 41, 59, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 12px 5px; display: none; justify-content: space-around; box-shadow: 0 10px 25px rgba(0,0,0,0.5); border: 1px solid #475569; z-index: 1000; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; text-decoration: none; color: #64748b; cursor: pointer; }
+        .nav-item.active { color: #38bdf8; }
+        .nav-item i { font-size: 1.1rem; }
+        .nav-item span { font-size: 0.65rem; font-weight: 700; }
+    </style>
 </head>
 <body>
-    <!-- [Content omitted for brevity, full code in web document] -->
+
+    <!-- ==================== GATEWAY AKSES LOGIN PIN ADMIN ==================== -->
+    <div id="view-lock" class="auth-card">
+        <h2 class="auth-title">⚙️ PANEL ERP ADMIN</h2>
+        <div class="form-group">
+            <label>MASUKKAN PIN KHUSUS PETUGAS</label>
+            <input type="password" id="adminPin" class="form-control" placeholder="PIN Bawaan Anda: 1234" autofocus>
+        </div>
+        <button class="btn-primary" onclick="verifikasiPinAdmin()">BUKA PANEL UTAMA</button>
+    </div>
+
+    <!-- ==================== HALAMAN UTAMA ADMIN (TERKUNCI DAWAL) ==================== -->
+    <div id="adminSystem" style="display: none;">
+        <header>
+            <div>
+                <h1>🔧 INTIDAYARAKSA ERP</h1>
+                <p>Mode Manajemen internal Bengkel Teknik</p>
+            </div>
+            <button class="btn-logout" onclick="kunciKembali()">KUNCI</button>
+        </header>
+
+        <main>
+            <!-- 1. HALAMAN MONITORING WORK ORDER -->
+            <div id="page-dashboard" class="page-section active">
+                <div class="section-title">Ringkasan Operasional Lapangan</div>
+                <div class="grid-stats">
+                    <div class="card-stat">
+                        <span class="title">Total Konsumen</span>
+                        <span id="statTotalUser" class="value">0</span>
+                    </div>
+                    <div class="card-stat orange">
+                        <span class="title">Antrean Servis</span>
+                        <span id="statAntrean" class="value">0</span>
+                    </div>
+                    <div class="card-stat green" style="grid-column: span 2;">
+                        <span class="title">Order Selesai Dikerjakan</span>
+                        <span id="statSelesai" class="value">0</span>
+                    </div>
+                </div>
+
+                <div class="section-title">Pantauan Tugas Lapangan Berjalan</div>
+                <div id="container-order-admin">
+                    <!-- Data Order Mengalir Otomatis dari index.html -->
+                </div>
+            </div>
+
+            <!-- 2. HALAMAN DATABASE MASTER PELANGGAN -->
+            <div id="page-pelanggan" class="page-section">
+                <div class="section-title">Daftar Database Pelanggan Terdaftar</div>
+                <div id="container-customer-admin">
+                    <!-- List Pelanggan -->
+                </div>
+            </div>
+        </main>
+
+        <!-- NAVIGASI BAWAH JEMPOL -->
+        <nav class="bottom-nav" id="adminNavbar">
+            <div class="nav-item active" onclick="pindahTabAdmin('dashboard', this)">
+                <i class="fa-solid fa-chart-pie"></i><span>Monitoring</span>
+            </div>
+            <div class="nav-item" onclick="pindahTabAdmin('pelanggan', this)">
+                <i class="fa-solid fa-users-gear"></i><span>Data Pelanggan</span>
+            </div>
+        </nav>
+    </div>
+
+    <!-- ==================== LOGIKA SINKRONISASI (JAVASCRIPT ENGINE) ==================== -->
     <script>
-        // [Content omitted for brevity, full code in web document]
-        // Fitur: Pemantauan Order, Tunjuk Teknisi, Update Status (Auto-refresh 1.5s)
-    </script>
-</body>
-</html>
+        // Ambil data yang diketik pelanggan di web index.html
+        let dbPelanggan = JSON.parse(localStorage.getItem('db_pelanggan')) || [];
+        let dbOrder = JSON.parse(localStorage.getItem('db_order')) || [];
+
+        // 1. SISTEM DETEKSI PIN AMAN
+        function verifikasiPinAdmin() {
+            const inputPin = document.getElementById('adminPin').value.trim();
+            if (inputPin === "1234") {
+                document.getElementById('view-lock').style.display = 'none';
+                document.getElementById('adminSystem').style.display = 'block';
+                document.getElementById('adminNavbar').style.display = 'flex';
+                renderSeluruhDataAdmin();
+                
+                // Nyalakan mesin auto-refresh otomatis sinkronisasi tiap 1,5 detik
+                setInterval(autoSyncData, 1500);
+            } else {
+                alert("PIN Salah! Akses khusus internal pengurus ditolak.");
+                document.getElementById('adminPin').value = "";
+            }
+        }
+
+        function kunciKembali() {
+            document.getElementById('adminPin').value = "";
